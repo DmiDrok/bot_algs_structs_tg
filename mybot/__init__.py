@@ -1,5 +1,5 @@
 from .bot_dp import bot
-from .commands import dp
+from .handlers.default import dp
 from .models import engine, Base
 
 from sqlalchemy.orm import create_session

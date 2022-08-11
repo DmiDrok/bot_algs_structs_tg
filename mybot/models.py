@@ -1,10 +1,12 @@
-from sqlalchemy import Column, Integer, Text, VARCHAR, BINARY, ForeignKey
+from sqlalchemy import Column, Integer, Text, VARCHAR, ForeignKey
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, create_session
 
 from config import config_db
 
+
 Base = declarative_base()
+
 
 # Модель, которая будет соответсвовать как алгоритмам в БД, так и структурам данных
 class Alg(Base):

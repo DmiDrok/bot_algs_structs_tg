@@ -3,12 +3,13 @@ from mybot import bot, dp
 
 from config import ADMIN_ID
 
-
 # Функция отправки письма администратору при запуске
 async def send_start(message):
     await dp.bot.set_my_commands([
         types.BotCommand('start', 'Начать работу с ботом'),
-        types.BotCommand('help', 'Помощь по командам бота.'),
+        types.BotCommand('all', 'Все алгоритмы и структуры, которые знает бот.'),
+        types.BotCommand('all_algs', 'Все алгоритмы, которые знает бот.'),
+        types.BotCommand('all_structs', 'Все структуры данных, которые знает бот.'),
         types.BotCommand('random_alg', 'Случайный алгоритм'),
         types.BotCommand('random_struct', 'Случайная структура данных'),
     ])
