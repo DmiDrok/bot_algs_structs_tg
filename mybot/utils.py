@@ -1,6 +1,6 @@
 from aiogram import md
 
-from .keyboards import randoms_keyboard, email_keyboard
+from .keyboards import randoms_keyboard, email_keyboard, file_keyboard
 from .models import Alg, session
 
 import random
@@ -77,21 +77,27 @@ def get_instance(data):
 
     markup = None
     data_db = None
-    file = None
     if data: # Если выборка существует - делаем сообщение на её основе
-        if type(data) is Alg:
-            data_db = session.query(Alg).filter_by(data_id=data.id).first()
-        else: # Если передан был callback от кнопки (сразу id)
+        if type(data) is not Alg:
             data_db = session.query(Alg).filter_by(data_id=data).first()
+        else:
+            data_db = data # Уже и так был передан экземпляр класса модели (запись из бд); теперь наша задача - просто сформировать сообщение и клавиатуру
 
         code = data_db.code
 
         text_msg = f'{data_db.title}\n\n{data_db.description}\n\nРеализация на языке программирования {emoji.emojize(":snake:")} Python:\n`{code}`'
-        markup = randoms_keyboard
-        file = open(os.path.join('all_algs', f'{data_db.data_id}.py'), 'rb')
+        markup = file_keyboard
     elif not data_db: # Если выборки не существует - уведомляем об отсутствии
         text_msg = f'Прошу прощения, но я пока не обладаю знаниями по этой теме.'
         markup = email_keyboard
 
-    print(f'ЭТО ФАЙЛ: {file}')
-    return text_msg, markup, file
+
+    return text_msg, markup
+
+
+def get_file_by_id(file_id):
+    """
+        Функция, которая возвращает дескриптор файла по его id (названию)
+    """
+
+    return open(os.path.join('all_algs', f'{file_id}.py'), 'rb')

@@ -1,3 +1,8 @@
-# Хранилище ошибочных алгоритмов / структур данных (которые бот не мог показать пользователю)
-# Ключ - айди пользователя; значение - строка с названием алгоритма / структуры данных
-storage_errors = {}
+from aiogram.dispatcher.filters.state import StatesGroup, State
+
+
+class ErrSt(StatesGroup):
+    err_alg_name = State()
+
+class AlgSt(StatesGroup):
+    alg_name = State()

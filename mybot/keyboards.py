@@ -38,3 +38,8 @@ randoms_keyboard.add(btn_random_alg, btn_random_struct)
 email_keyboard = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
 send = KeyboardButton('Отправить письмо об ошибке на почту.')
 email_keyboard.add(send)
+
+# Клавиатура получения файла
+file_keyboard = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+file_btn = KeyboardButton('Получить файл с реализацией.')
+file_keyboard.add(file_btn)
