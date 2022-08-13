@@ -1,10 +1,14 @@
 from aiogram import executor, types
+
 from mybot import bot, dp
+
+from create_algs import create_all
 
 from config import ADMIN_ID
 
 # Функция отправки письма администратору при запуске
 async def send_start(message):
+    create_all() # Создаём все алгоритмы / структуры в папке с ними
     await dp.bot.set_my_commands([
         types.BotCommand('start', 'Начать работу с ботом'),
         types.BotCommand('all', 'Все алгоритмы и структуры, которые знает бот.'),

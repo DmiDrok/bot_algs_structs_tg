@@ -13,7 +13,8 @@ def get_random_instance(alg=True):
         Функция получения случайного алгоритма (если alg is True)
         И иначе - функция получения случайной структуры данных.
         Возвращает первым аргументом текст сообщения,
-        Вторым - клавиатуру к нему
+        Вторым - клавиатуру к нему,
+        Третьим - запись из БД
     """
     which_type = 1 if alg else 2
     top_bound = session.query(Alg).filter_by(type=which_type).count()
@@ -22,11 +23,11 @@ def get_random_instance(alg=True):
     markup = None
     if data_db:
         text_msg = f'{data_db.title}\n\n{data_db.description}\n\nРеализация на языке программирования {emoji.emojize(":snake:")} Python:`\n{md.quote_html(data_db.code)}`'
-        markup = randoms_keyboard
+        markup = file_keyboard
     else:
         text_msg = 'Что-то пошло не по плану, попробуйте позже...'
 
-    return text_msg, markup
+    return text_msg, markup, data_db
 
 
 def get_all_vars(all=False, algs=False, structs=False):
@@ -43,13 +44,13 @@ def get_all_vars(all=False, algs=False, structs=False):
 
     markup = randoms_keyboard
     if all or algs:
-        algs = session.query(Alg).filter_by(type=1).all()
+        algs = session.query(Alg).filter_by(type=1).order_by(Alg.title).all()
         text_msg += '\n<b>Алгоритмы:</b>\n'
         for i, alg in enumerate(algs, start=1):
             text_msg += f'{i}. {alg.title}\n'
     
     if all or structs:
-        structs = session.query(Alg).filter_by(type=2).all()
+        structs = session.query(Alg).filter_by(type=2).order_by(Alg.title).all()
         text_msg += '\n<b>Структуры данных:</b>\n'
         for i, struct in enumerate(structs, start=1):
             text_msg += f'{i}. {struct.title}\n'
